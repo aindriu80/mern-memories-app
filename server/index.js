@@ -8,16 +8,12 @@ import postRoutes from "./routes/posts.js";
 const app = express();
 dotenv.config();
 
-app.use("/posts", postRoutes);
-
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
-// MongoDB
-// const CONNECTION_URL =
-//   "mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rgcts.mongodb.net/merng-memories-app?retryWrites=true&w=majority";
-const PORT = process.env.PORT || 5000;
+// Need to specify routes below use CORS above
+app.use("/posts", postRoutes);
 
 mongoose
   .connect(process.env.CONNECTION_URL, {
@@ -25,7 +21,9 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() =>
-    app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+    app.listen(process.env.PORT, () =>
+      console.log(`Server running on port: ${process.env.PORT}`)
+    )
   )
   .catch((error) => console.log(error.message));
 
