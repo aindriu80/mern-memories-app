@@ -1,4 +1,5 @@
 import * as api from "../api/index.js";
+const CREATE = "CREATE";
 
 // Action Creators
 export const getPosts = () => async (dispatch) => {
